@@ -1,0 +1,28 @@
+-----------download a spring boot project with 3 dependencies FROM spring.io WEBSITE
+
+1)web 
+2)spring data jpa
+2)h2 database
+
+4) THEN DOWNLOAD THAT DEPENDENCIES AND IMPORT TO ECLIPSE
+
+-----------------------------------app.properties
+//WRITE BELOW THINGS IN DOWNLOADED FILE 
+server.port=1234
+spring.h2.console.enabled=true  //is to enble the h2 database(h2 data base is like fake database we check our code with this fake data base
+spring.datasource.url=jdbc:h2:mem:testdb
+
+
+
+------------------------------------------run application and test h2-console
+
+
+http://localhost:1234/h2-console //(THIS IS THE WEBSITE OF H2 DATABASE OPEN IN GOOGLE)
+
+ensure the uRl in h2-console is 
+JDBC_URL:  jdbc:h2:mem:testdb
+
+
+
+
+
