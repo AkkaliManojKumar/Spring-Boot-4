@@ -77,9 +77,9 @@ import org.springframework.stereotype.Service;
 import com.example.wiprob5h2crud.model.Author;
 
 @Service
-public interface AuthorService {
+public interface AuthorService {               // AUTHOR SERVICE IS TO VIEW CLIENT ACTUAL LOGIC IS WRITTEN IN THE IMPLSERVICE
 	
-	public Author saveAuthor(Author author);    //IN INTERFACE METHOD DECLARARTION ONLY 
+	public Author saveAuthor(Author author);    //INSTANCE IS CREATED FOR THE AUTHOR IN SERVICE 
 	
 }
 
@@ -94,10 +94,10 @@ import org.springframework.stereotype.Service;
 import com.example.wiprob5h2crud.dao.AuthorDao;
 import com.example.wiprob5h2crud.model.Author;
 @Service
-public class AuthorImpl implements AuthorService{
+public class AuthorImpl implements AuthorService{         // WE INHERIT THE AUTHOR SERVICE 
 
 	@Autowired
-	AuthorDao authorDao;
+	AuthorDao authorDao;   //INSTANCE OF THE authorDao IS CREATED HERE
 	
 	@Override
 	public Author saveAuthor(Author author) {     //HERE METHOD DECLARATION IS ALSO GIVEN FOR THAT ETHOD 
@@ -112,7 +112,7 @@ public class AuthorImpl implements AuthorService{
 	public String nameGenerator(String name)
 	{
 		
-		return name.toUpperCase();
+		return name.toUpperCase();        //ACTUAL LOGIC IS WRITTEN HERE WHICH ISHOUL NOT VISSIBLE TO THE CLIENT
 	}
 	
 }
@@ -138,7 +138,7 @@ import com.example.wiprob5h2crud.service.AuthorService;
 public class AuthorController {
 
 	@Autowired
-	AuthorService authorService;
+	AuthorService authorService;    //INSTANCE CREATED FOR TEH AUTHOR SERVICE
 	
 	@PostMapping
 	public ResponseEntity<Author> saveAuthor(@RequestBody Author author)
