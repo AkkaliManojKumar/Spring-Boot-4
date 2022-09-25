@@ -1,0 +1,200 @@
+--------------------------------------------------------------------------------------------------------------------------- Authorservice 
+package com.example.wiprob5h2crud.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.wiprob5h2crud.model.Author;
+
+@Service
+public interface AuthorService {
+	
+	public Author saveAuthor(Author author);      ---------->>> saving the data of  author method
+	
+	public List<Author> getAllAuthors();       ---------->>>  getting list of authors method
+  
+	public Author getAuthor(int authorId);     ---------->>> get author method
+	
+	public String deleteAuthor(int authorId);  ----------->>> deleting author method
+	
+	public Author updateAuthor(Author author);    ---------->>> PUT(updating) author method
+	
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------ AuthorServiceImpl 
+
+
+package com.example.wiprob5h2crud.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.wiprob5h2crud.dao.AuthorDao;
+import com.example.wiprob5h2crud.model.Author;
+@Service
+public class AuthorImpl implements AuthorService{
+
+	@Autowired
+	AuthorDao authorDao;     // authorDao is injected here so we can use authorDao in this 
+	
+  
+  
+  
+  
+  
+  
+	@Override
+	public Author saveAuthor(Author author) {     ---------->>>  saving(POST) author method
+		
+	String name=	nameGenerator(author.getAuthorName());
+	author.setAuthorName(name);
+		return authorDao.save(author);
+	}
+
+	
+	
+	public String nameGenerator(String name)
+	{
+		
+		return name.toUpperCase();
+	}
+
+
+
+	@Override                                     ---------->>> getting list of author method
+	public List<Author> getAllAuthors() {       
+		
+		return (List<Author>) authorDao.findAll();
+	}
+	 
+	@Override                                     ---------->>> getting author method
+	public Author getAuthor(int authorId)
+	{
+		Optional<Author> authorOpt=authorDao.findById(authorId);        //------>> if wrong id is entered then ERROR generated to avoid that we do this
+			if(authorOpt.isPresent())    // if id is present it allows
+				return authorOpt.get();
+			
+			return null;
+	}
+	
+	@Override                                      ---------->>> deleting author method
+	public String deleteAuthor(int authorId)
+	{
+		Author author= getAuthor(authorId);      //getAuthor method is called which is above present one
+		if(author!=null)
+		{
+			authorDao.delete(author);
+			return "author deleted";
+		}
+		else
+			return "author cannot be deleted";
+	}
+	
+	@Override                                      ---------->>> PUT(updating) author method
+	public Author updateAuthor(Author author)
+	{
+		
+		return authorDao.save(author);
+	}
+
+
+}
+
+
+-------------------------------------------------------------------------------------------------------------------------- Controller
+
+package com.example.wiprob5h2crud.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.wiprob5h2crud.model.Author;
+import com.example.wiprob5h2crud.service.AuthorService;
+
+@RestController
+@RequestMapping("authors")
+public class AuthorController {
+
+	@Autowired
+	AuthorService authorService;
+	
+	@PostMapping                                            //------------------------->> posting 
+	public ResponseEntity<Author> saveAuthor(@RequestBody Author author)
+	{
+		
+	Author savedAuthor=authorService.saveAuthor(author);
+	
+		return new ResponseEntity<Author>(savedAuthor,HttpStatus.CREATED);
+		
+	}
+	
+	
+	@GetMapping                                                //--------------------->> getmapping
+	public ResponseEntity<List<Author>> getAuthors()
+	{
+		
+	List<Author> authors=authorService.getAllAuthors();
+	
+		return new ResponseEntity<List<Author>>(authors,HttpStatus.FOUND);
+		
+	}
+	
+	@GetMapping("{authorId}")                                  //--------------------->> getmapping by id
+	public ResponseEntity<Object> getAuthor(@PathVariable int authorId)
+	{
+		
+	Author author=authorService.getAuthor(authorId);        
+		
+			if(author!=null)
+		return new ResponseEntity<Object>(author,HttpStatus.FOUND);         //------>> if wrong id is entered then ERROR generated to avoid that we do this
+		
+			else
+				return new ResponseEntity<Object>("Data Not FOund",HttpStatus.NOT_FOUND);		
+		
+	}
+	
+
+	
+	@DeleteMapping("{authorId}")                                              //--------------------->> delete mapping
+	public ResponseEntity<String> deleteAuthor(@PathVariable int authorId)
+	{
+		
+String result=authorService.deleteAuthor(authorId);
+		
+		return new ResponseEntity<String>(result,HttpStatus.OK);
+		
+		
+	}
+	
+
+	@PutMapping                                                          //--------------------->> put mapping
+	public ResponseEntity<Author> updateAuthor(@RequestBody Author author)
+	{
+		
+	Author savedAuthor=authorService.updateAuthor(author);
+	
+		return new ResponseEntity<Author>(savedAuthor,HttpStatus.CREATED);
+		
+	}
+	
+
+	
+	
+	
+}
