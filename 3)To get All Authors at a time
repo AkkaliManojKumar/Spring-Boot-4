@@ -1,0 +1,134 @@
+------------------------------------------------------------------------------------------------------------- AuthorDao(data access object) ----------------------
+
+package com.example.wiprob5h2crud.dao; //CREATE NEW dao PACKAGE
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import com.example.wiprob5h2crud.model.Author;
+
+@Repository
+public interface AuthorDao extends CrudRepository<Author, Integer>{       //--->. inheriting Crudrepository which contains all crud operation methods
+
+}
+---------------------------------------------------------------------------------------------------------------AuthorService
+
+package com.example.wiprob5h2crud.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.wiprob5h2crud.model.Author;
+
+//-------------------->>>> AUTHOR SERVICE LO METHODS RASTAM VATINI AUTHORIMPL OVERRIDE CHESTHAI <<<<--------------------------------------
+
+
+@Service
+public interface AuthorService {   //THIS IS AN INTERFACE
+	
+	public Author saveAuthor(Author author);
+	
+	public List<Author> getAllAuthors(); //------------>>> CREAETED ONE METHOD WHICH GET ALL THE AUTHORS(LIST OF AUTHORS WE GET HERE)
+	
+}
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------SERVICEimplEMENTATION
+
+
+package com.example.wiprob5h2crud.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.wiprob5h2crud.dao.AuthorDao;
+import com.example.wiprob5h2crud.model.Author;
+
+
+@Service
+public class AuthorImpl implements AuthorService{
+
+	@Autowired
+	AuthorDao authorDao;
+	
+	@Override
+	public Author saveAuthor(Author author) {
+		
+	String name=	nameGenerator(author.getAuthorName());
+	author.setAuthorName(name);
+		return authorDao.save(author);    //---------->>> save Method is inbuilt method which is from crudRepository implemented by authordao
+	}
+
+	
+	
+	public String nameGenerator(String name)
+	{
+		return name.toUpperCase();
+	}
+
+
+
+	@Override
+	public List<Author> getAllAuthors() {      //--------------------------->>> OVERRIDING THE LIST OF AUTHORS METHOD
+		
+		return (List<Author>) authorDao.findAll();
+	}
+	
+}
+
+
+------------------------------------------------------------------------------------------------------------------controller
+
+
+package com.example.wiprob5h2crud.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.wiprob5h2crud.model.Author;
+import com.example.wiprob5h2crud.service.AuthorService;
+
+@RestController
+@RequestMapping("authors")
+public class AuthorController {
+
+	@Autowired
+	AuthorService authorService;
+	
+	@PostMapping
+	public ResponseEntity<Author> saveAuthor(@RequestBody Author author)
+	{
+		
+	Author savedAuthor=authorService.saveAuthor(author);
+	
+		return new ResponseEntity<Author>(savedAuthor,HttpStatus.CREATED);
+		
+	}
+	
+	
+	@GetMapping
+	public ResponseEntity<List<Author>> getAuthors()
+	{
+		
+	List<Author> authors=authorService.getAllAuthors();
+	
+		return new ResponseEntity<List<Author>>(authors,HttpStatus.FOUND);
+		
+	}
+	
+	
+	
+}
