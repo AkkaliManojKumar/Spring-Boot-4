@@ -61,7 +61,7 @@ import org.springframework.stereotype.Repository;
 import com.example.wiprob5h2crud.model.Author;
 
 @Repository
-public interface AuthorDao extends CrudRepository<Author, Integer>{
+public interface AuthorDao extends CrudRepository<Author, Integer>{       //--->. inheriting Crudrepository which contains all crud operation methods
 
 }
 
@@ -77,7 +77,7 @@ import org.springframework.stereotype.Service;
 import com.example.wiprob5h2crud.model.Author;
 
 @Service
-public interface AuthorService {               // AUTHOR SERVICE IS TO VIEW CLIENT ACTUAL LOGIC IS WRITTEN IN THE IMPLSERVICE
+public interface AuthorService {               // AUTHOR SERVICE IS FOR CLIENT ONLY (ACTUAL LOGIC IS WRITTEN IN THE IMPLSERVICE)
 	
 	public Author saveAuthor(Author author);    //INSTANCE IS CREATED FOR THE AUTHOR IN SERVICE 
 	
