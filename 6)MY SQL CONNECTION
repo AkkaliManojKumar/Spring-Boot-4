@@ -41,3 +41,60 @@ List all databases on the sql server.---------------->>>>>>	show databases;
 To see all the tables in the db.---------------->>>>>>	show tables;
 Switch to a database.---------------->>>>>>	use [db name];
 List all databases on the sql server.---------------->>>>>>	show databases;
+
+
+------------------------------------------------------------------------------------ commands in my computer while learning ----------------------------
+C:\Users\manoj>mysql -u root -p
+Enter password: ******
+
+
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 134
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+mysql> use myauthor   //---------->>> my author is database name
+Database changed
+mysql> select *from author  //--------->>> author is table name
+    -> ;
++-----------+------------------+------------------+
+| author_id | author_name      | book             |
++-----------+------------------+------------------+
+|         2 | MANOJ            | Non-veggie pakka |
+|         5 | PICHI PUKU FILLA | veggie pakka     |
+|        15 | AISHU            | veggie pakka     |
+|        22 | PRIYANNN         | Non-veggie pakka |
+|       215 | MANAISH          | Non-veggie pakka |
++-----------+------------------+------------------+
+5 rows in set (0.01 sec)
+
+mysql> select *from author
+    -> ;
++-----------+-------------+------------------+
+| author_id | author_name | book             |
++-----------+-------------+------------------+
+|         2 | MANOJ       | Non-veggie pakka |
+|        22 | PRIYANNN    | Non-veggie pakka |
+|       215 | MANAISH     | Non-veggie pakka |
++-----------+-------------+------------------+
+3 rows in set (0.00 sec)
+
+
+mysql>  select *from author
+    -> ;
++-----------+-------------+------------------+
+| author_id | author_name | book             |
++-----------+-------------+------------------+
+|         2 | MANOJ       | Non-veggie pakka |
+|        15 | AISHU       | veggie pakka     |
+|        22 | PRIYANNN    | Non-veggie pakka |
++-----------+-------------+------------------+
+3 rows in set (0.00 sec)
