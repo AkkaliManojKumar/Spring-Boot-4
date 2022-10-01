@@ -1,0 +1,84 @@
+For first installing MongoDB :
+
+1) create folder c->data->db //
+2)--> cd mongodb file path with bin paste here
+3) mongod  //---->> open anothor cmd and run this command in that cmd
+----------------------------------------------------------------------------------------------------------------
+if u have data folder in d drive
+
+mongod --dbpath d:\\data
+
+-------------------------------------------------------------------------------------- by default mongod runs on port --------> 27017
+
+AFTER STARTING mongoDB ----->>> below commands 
+
+show dbs   //--->> shows the databses
+
+db 
+
+use wiprocc  //--->>> use keyword will create the database name menctioned
+
+db        //--->> IT SHOWS WHICH DATABASE WE ARE USING
+
+show dbs  //--->> show all the databases avilable which has atleast one collection(empty db it wont show)
+
+db.createCollection("employees");  //------->> to create collection in database(COLLECTION = TABLE IN SQL)
+
+show dbs
+
+show collections   // SHOW ALL THE COLLECTIONS 
+
+db.employees.drop();   //-->>> DELETE THE COLLECTION
+
+show collections
+
+db.author.insert(     //---->>Insert data in the collections
+{
+"name":"john",
+"yob":1999
+}
+);
+
+
+db.author.find();    //---->> find the data in the collections
+
+
+db.author.find().pretty();    ///--->> pretty is used to organise the data
+
+
+
+db.author.insert(        //-->> inserting  data WITH 2 values 
+{
+"name":"rock",
+"yob":1990
+}
+);
+
+
+
+db.author.insert(       //-->> inserting  data WITH 3 values     // ITS NOT A PROBLEM WE CAN INSERT VALUES OF ANY NO OF VALUES IN SAME COLLECTION
+{
+"name":"brock",
+"yob":1990,
+"city":"bangalore"
+}
+);
+
+
+select * from author where yob =1999   //----->>> THIS IS MY SQL FINDING OF DATA
+
+db.author.find(       //----->>> THIS IS MONGOdb FINDING OF DATA
+{
+"yob":1999     //---->>> PARAMETER IS GIVEN TO FIND
+}
+).pretty();
+
+
+db.author.insert(
+{
+"name":"hbk",
+"yob":1988,
+"city":"new york",
+"phone":[99887788,88775544]   //---->>> ARRAY OF ELEMEMTS ARE ADDED INTO THE VARIABLE IS ALSO POSSIBLE
+}
+);
