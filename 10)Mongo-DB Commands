@@ -82,3 +82,59 @@ db.author.insert(
 "phone":[99887788,88775544]   //---->>> ARRAY OF ELEMEMTS ARE ADDED INTO THE VARIABLE IS ALSO POSSIBLE
 }
 );
+
+
+db.author.find(
+{
+"yob":{$gt:1990}      //---------------->>> yob which is greater than 1990 is retrived  (gt means greaterthan )
+"yob":{$lt:1990}      //--------------->>>> lt means (Less than is retrived from the mongo data base)
+}
+).pretty(); //---->>> data will be in organised format
+
+------------------------- greater than or equal to ---------------------------------------------
+
+db.auhtor.find(
+{
+"yob":{$gte:1990}        //-------->> gte means (graeter than or equals to)
+}
+).pretty();
+
+------------------------- not equals to (ne) ---------------------------------------------------
+
+db.author.find(
+{
+"yob":{$ne:1990}       //----------------->>> ne means (not equals to)--->> except 1990 all years data is retrived 
+}
+).pretty();
+----------------------- in ------------------------------------------------------------
+db.author.find(
+{
+"yob":{$in:1990,1999} //----->> yob of 1990 and 1999 is only retrived !
+}
+).pretty();
+
+-------------------------------------------- nin  (not-in) ------------------------------
+
+db.author.find(
+{
+"yob":{$nin:1990,1999} //------->> except this two years all years are retrived 
+}
+).pretty();
+
+---------------------------------------- and operator -------------------------------------
+
+db.auhtor.find(
+{
+"yob":1999,
+"city":"Banglore"       //---------->>> no need of yob and city  operator it will retrive the data by checking the two data parameters 
+}
+).pretty();
+
+-------------------------------------------------------- or condition on mongo db ------------------
+
+db.author.find(
+$or:[
+{"yob":1990},
+{"city":"Banglore"}  //--------------------->>> data with   "1990"   or   "banglore" are retrived
+]
+).pretty();
