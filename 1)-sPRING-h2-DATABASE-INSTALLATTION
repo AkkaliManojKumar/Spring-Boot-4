@@ -6,6 +6,27 @@
 
 4) THEN DOWNLOAD THAT DEPENDENCIES AND IMPORT TO ECLIPSE
 
+https://start.spring.io/    //----- >>> visit this webite 
+ select springboot-java
+select dependencies ------> web includes apache tomcat
+
+
+artifactId --- ant name of project
+
+select java 8
+select java 2.6.11
+download
+
+--------
+open exclipse
+import 
+general 
+project from folder or archive
+archive
+select the downloaded folder 
+check only maven project
+finish
+
 -----------------------------------app.properties
 //WRITE BELOW THINGS IN DOWNLOADED FILE 
 server.port=1234
