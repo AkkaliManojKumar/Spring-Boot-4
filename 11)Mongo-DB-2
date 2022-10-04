@@ -1,0 +1,204 @@
+-------------------------------------------------------- UPDATE METHOD ----------------------------------------------
+db.author.update(
+{
+"city":"bengaluru"
+},
+{
+$set:{"city":"banglore"}   //----->> we are updating city with banglore 
+},
+{
+multi:true  //------->>> This means if multiple city parameters are there in collection(table) they all are updated with the "banglore"
+}
+).pretty();
+------------------------------------------ MULTIPLE INSERTS ----------------------------------------------------------
+db.author.insert(
+[
+{"name":"manoj"},
+{"name":"kalyan"},
+{"name":"vamshi"},
+{"name":"sai"}            //----------->> array of elements can be inserted to the collection(TABLE) at a time
+] 
+).pretty();
+-------------------------------------------- delete method --------------------------------------------------------------
+
+db.author.remove({})  //--------------->>> will remove all the data in the author collection
+
+db.book.insert(    //--------->>> actually we have not created the book collection(TABLE) but mongo will understand the that(it has to create the collection book and has to insert the data into that)  
+{"name":"manoj"},
+{"name":"kalyan"},
+{"name":"vamshi"},
+{"name":"sai"} 
+]
+).pretty();
+
+---------------------------------------------- _id:0, _id:1 -----------------------------------------------------------------
+
+db.author.find({},{"_name":0});      //--------------------->>> from data base it will not show the name property other properties are displayed
+db.author.find({},{"_name":1});      //----------------->> from database it will only show the name property other properties are ignored
+
+any 1 property that i want to show i use this
+
+--------------------------------------------------------- inserting DATA in to employees collection --------------------------------------------------
+db.employees.insert(       //------------->>> directly we can write insert with out creating the employee collection MONOGO-db can understand and it will create the employee collection and then insert the data
+[
+{
+"_id":1,
+"name":"AAA",
+"rank":5
+},
+{
+"_id":2,
+"name":"BBB",
+"rank":4
+},
+{
+"_id":3,
+"name":"CCC",
+"rank":3
+},
+{"_id":4,
+"name":"DDD",
+"rank":2},
+{
+"_id":5,
+"name":"EEE",
+"rank":1
+}
+]
+).pretty();
+
+------------------------------------------------------------------------------------------ sorting  --------------------------------
+
+db.employees.find().sort(
+{
+"rank":1   //---------------------------->>> will sort the rank parameter in ASSENDING ORDER  ---->>> 1 indicates ASSENDING ORDER
+"_id":-1   //----------------------->>> -1 DESCENDING ORDER (-1 will sort the id in descending order)
+}
+)
+
+------------------------------------------------------------------------------------------- skip function --------------------------
+
+db.employees.find().skip(2);       //---------------->>> first two elements can be skipped in the employees collection
+                                    //---->>> in the employees collection we have array in that we have 5 elements in that first 2 elements are skipped
+                   
+ ----------------------------------------------------------------------- limit function ---------------------------------------------------
+ 
+ db.employees.find().limit(3);   //---------------------->>> in the list first 3 elements are retrived and remaining are ignored
+ 
+ ----------------------------------------------------------------- count function -------------------------------------
+ 
+ db.employees.find().count(); //-------------->> will count how many records are there inside
+ 
+ 
+ -------------------------------------------------------- to get top two records ---------------------------------------------------------
+ 
+ db.employees.find().sort(
+ {
+ "rank":1
+ }
+ ).limit(2);
+ 
+ ------------ EMBEDED records ---------------
+ 
+ db.employees.insert(
+ {
+ "name":"my name",
+ "address":
+ {                              //-------------------->> inside the address we have the two other embedded properties
+ "city":"Hyderabad",
+ "pincode":508210
+ }
+ }
+ );
+ 
+ --------------------- ARRAY OF EMBEDED records -----------------------
+ 
+ db.employees.insert(
+ {
+ "name":"my name",
+ "address":
+ [                 //---------------->>> array of records rae embeded to the address record
+ {
+ "city":"banglarore",
+ "pincode":508210
+ },
+ {
+ "city":"bendapudi",
+ "pincode":5097837
+ },
+ {
+ "city":"Zaherabad",
+ "pincode":5687677
+ }
+ ]
+ ).pretty();
+ 
+ ------------------------------------------------------------------------------- STUDENT COLLECTION CREATED ---------------------------
+ 
+ db.students.insert(
+ [
+ {
+ rno:1,
+ studname:"manoj",
+ gender:"male",
+ sem:5,
+ marks:80
+ },
+  {
+ rno:2,
+ studname:"aish",
+ gender:"fe-male",
+ sem:5,
+ marks:25
+ },
+ {
+ rno:3,
+ studname:"priyan",
+ gender:"fe-male",
+ sem:5,
+ marks:21
+ },
+ {
+ rno:4,
+ studname:"CAT",
+ gender:"fe-male",
+ sem:5,
+ marks:15
+ }
+ ]
+ );
+ 
+ -------------------aggregate function (GROUPING BASED on records ) ----------
+ 
+ db.students.aggregate(
+ [
+ {
+ $group:{_id:"gender"}            // ------>> based on gender all are grouped (aadangulanni okka daggara cheruthai)
+ }
+ ]
+ );
+ 
+ ----------------------------------------------
+ db.students.aggregate(
+ [ { $group :{_id :"gender",totalmarks:{$sum:"$marks"}  }   } ]);      //-------------->>> marks are summed for each group like (SUM OF GIRLS MARKS & BOYS MARKS)
+                                         //---.... $sum is a function which will sum the marks 
+ 
+ 
+ -----------------------------------------------
+ 
+ db.students.aggregate(
+ [{$group:{_id:"gender",maxmarks:{$max:"$marks"} }  }]);     //------->> max marks of a person in the male and female group are retrived 
+ 
+ --------------------------------------------------
+ 
+ db.students.aggregate(
+ [{$group:{_id:"gender",avgmarks:{$avg:"$marks"} }  }]);     //------->> avg marks are of a group are retrived
+ 
+ --------------------------------------------------
+ 
+ db.students.aggregate(
+ [{$group:{_id:"gender",avgmarks:{$avg:"$marks"} }  }, { $match :{"avgmarks":{ $gt:89}} } ] );   //------->> GROUP WITH AVG MARKS ARE RETRIVED (MATCH FUNCTION WILL MATCH WITH THE AVG MARKS)
+ 
+ 
+                                    
+                                    
