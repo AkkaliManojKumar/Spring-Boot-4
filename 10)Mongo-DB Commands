@@ -2,7 +2,9 @@ For first installing MongoDB :
 
 1) create folder c->data->db //
 2)--> cd mongodb file path with bin paste here
-3) mongod  //---->> open anothor cmd and run this command in that cmd
+3) mongo  //---->> open anothor cmd go to (cd mongodb/--/bin ) and run mongo this command in that cmd
+4) use ---cls to clear
+5)  show dbs ----> to view database avilable
 ----------------------------------------------------------------------------------------------------------------
 if u have data folder in d drive
 
