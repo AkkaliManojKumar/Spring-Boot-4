@@ -1,0 +1,89 @@
+--------------------------------------------------------------------------------- Cache Memory installlation -------------------------------
+1)---> go to ----->> start.spring.io(Spring initilizer)
+2)add only spring web as dependency 
+3)import it to the eclipse 
+4)then ADD (spring boot starter cache) dependency FROM (Maven Repository) website
+5)copy the spring boot starter cache DEPENDENCY by selectig any version
+6)ADD this depenency to pom.xml file save
+
+------------------------------------------------------------------- Usage ----------------------------------------------------
+--> every time we retrive data from from the DB will take more time 
+--> To reduce the this time of loading we use this use Cache memory 
+--> Once the data is retrived from DB it takes more time when Second time we retrive data it takes less time coz it is stored in Cache memory 
+--> data in cache memory is easyly accsible with less time
+------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------- CLEANING OF Cahe memory ------------------------------------------
+1)when we update data in DB it will not be updated in the cahe memory 
+2)so we need to clean cahememory data AND when we retrive data from DB updated data will be stored in the cache memory 
+
+
+
+------------------------------------------------------------------------------------------------ main 
+
+package com.example.cccaching;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+
+@EnableCaching
+@SpringBootApplication
+public class Wiprob5CachingApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Wiprob5CachingApplication.class, args);
+	}
+
+}
+
+
+
+--------------------------------------------------------------------------------------------- controler
+package com.example.cccaching;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("api")
+public class MyApi {
+
+	
+	@Cacheable("mycachemem")   //------------------------------------>> cacheble makes below getMapping end point data will be stored in to the cache memory (cache memory name "mycachemem") 
+	@GetMapping
+	public String getData()
+	{
+		
+		
+		try {
+			Thread.sleep(4000);                    //------>> this sleep method will makes the program load for the 4000 milliseconds /4seconds
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return "hello form API";       //----------->>> get mapping return data 
+	}
+	
+  
+  
+	@CacheEvict("mycachemem")             //-------------->>> cacheEvict will CLEAN  cahe memory of ("mycachemem")
+	@PostMapping
+	public String postData()
+	{
+		return "new data added";
+	}
+	
+	
+}
+--------------------------------------------------------------------------------------------------------------app.properties
+
+
+
+
+server.port=1234
