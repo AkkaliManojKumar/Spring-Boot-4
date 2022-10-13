@@ -30,7 +30,7 @@ public interface PlayerDao extends MongoRepository<Player, Integer>{         //-
 
 
 	
-	@Query("{'playerId':{$gt:?0}}")
+	@Query("{'playerId':{$gt:?0}}")             //---->> {?0 = playerId(parameter)}
 	public List<Player> idGrter(int playerId);                             //---------------------->>> to find playerid greater than (parameter) given 
                       //--- idGrter ---->> is a method already present in the mongoRepository
 
